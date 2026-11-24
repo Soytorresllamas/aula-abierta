@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07599e">
+  <title>Aula abierta · Valientes</title>
+  <meta name="description" content="Recorre un salón de primaria mexicana en primera persona. Descubre Valientes y la biblioteca de literatura SM.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307599e'/%3E%3Cpath d='M16 48V23l16-9 16 9v25H16M27 48V34h10v14' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=20261124-10">
+  <link rel="stylesheet" href="experience.css?v=20261124-10">
+  <link rel="stylesheet" href="content.css?v=20261124-10">
+  <link id="catalogue-endpoint" rel="preload" as="fetch" href="/api/content" crossorigin="anonymous">
+  <script defer src="content.js?v=pages-1"></script>
+  <script defer src="vendor/babylon.js?v=20261124-10"></script>
+
+  <script defer src="lived-in.js?v=20261124-10"></script>
+  <script defer src="diversity.js?v=20261124-10"></script>
+  <script defer src="exterior.js?v=20261124-10"></script>
+  <script defer src="poster.js?v=20261124-10"></script>
+  <script defer src="world.js?v=pages-1"></script>
+  <script defer src="realism.js?v=20261124-10"></script>
+  <script defer src="projector.js?v=20261124-10"></script>
+  <script defer src="ambience.js?v=20261124-10"></script>
+  <script defer src="experience.js?v=20261124-10"></script>
+  <link rel="stylesheet" href="papalote.css?v=20261124-10">
+  <script defer src="papalote.js?v=20261124-10"></script>
+  <script defer src="app.js?v=20261124-10"></script>
+</head>
+<body>
+  <canvas id="world" tabindex="0" aria-describedby="poster-description" aria-label="Aula de primaria en tres dimensiones. Mira con W A S D o el mouse y camina con las flechas."></canvas>
+  <span id="poster-description" class="visually-hidden">En la pared derecha hay un póster: Aprender es de Valientes, con la ilustración del libro.</span>
+  <div id="vignette" aria-hidden="true"></div>
+  <header class="masthead">
+    <a class="identity" href="#" id="home" aria-label="Volver a la entrada">
+      <span class="school-icon" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M7 32V15l13-7 13 7v17H7ZM16 32V21h8v11M11 17h3m12 0h3M20 8V3h7v5"/></svg></span>
+      <span><strong>Aula abierta</strong></span>
+    </a>
+    <div class="header-right">
+      <button id="explore-aula" disabled class="header-action" aria-haspopup="dialog">Explorar aula</button>
+      <button id="open-settings" disabled class="icon-button" title="Ajustes" aria-label="Ajustes" aria-haspopup="dialog"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16M8 3v6M16 9v6M10 15v6"/></svg></button>
+      <button class="icon-button" id="help" title="Pausar y ver controles" aria-label="Pausar y ver controles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 8a3 3 0 1 1 5.5 1.7L12 12v2M12 18h.01"/></svg></button>
+      <button class="icon-button" id="fullscreen" title="Pantalla completa" aria-label="Pantalla completa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button>
+    </div>
+  </header>
+
+  <main id="welcome" class="welcome-card" aria-labelledby="welcome-title">
+    <div class="welcome-illustration" aria-hidden="true"></div>
+    <div class="welcome-content">
+    <h1 id="welcome-title">Un salón<br>por descubrir<span>.</span></h1>
+    <p>Abre el libro Valientes para crear la historia del papalote o entra al salón para explorar.</p>
+    <div class="welcome-actions">
+      <button id="enter" class="button primary" disabled>Preparando el aula… <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+      <button id="go-book" class="text-button" disabled>Ver el libro <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </div>
+    <button id="go-video" class="text-button video-shortcut" disabled>Ver video de Valientes</button>
+    <button id="go-supports" class="text-button bench-shortcut" disabled>Conocer la banca de apoyos <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </div>
+  </main>
+
+  <div id="projection-surface" hidden></div>
+  <section id="projection-controls" aria-label="Proyección de Valientes" hidden>
+    <div class="projection-heading"><strong id="projection-title"></strong><p id="projection-status" role="status" aria-live="polite"></p></div>
+    <div class="projection-actions">
+      <button id="projection-play" disabled>Reproducir</button>
+      <button id="projection-mute" aria-pressed="false" disabled>Silenciar</button>
+      <button id="projection-retry" hidden>Reintentar</button>
+      <a id="projection-source" target="_blank" rel="noopener noreferrer" hidden>Abrir video</a>
+      <button id="projection-close">Volver al recorrido</button>
+    </div>
+  </section>
+
+  <button id="lesson-route" class="button secondary" hidden></button>
+  <div id="reticle" class="reticle" hidden aria-hidden="true"></div>
+  <button id="book-hint" class="book-hint" hidden><span class="key">E</span><span><span id="hint-action">Examinar libro</span><small id="book-hint-title">Valientes · Español 1</small></span><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <aside id="mini-map" class="mini-map" aria-label="Tu ubicación dentro del aula">
+    <button id="map-toggle" aria-expanded="false" aria-controls="map-details">Mapa y destinos</button>
+    <div id="map-details" hidden>
+    <canvas id="map" width="280" height="320" aria-hidden="true"></canvas>
+    <div class="map-caption"><i></i> Estás aquí</div>
+    <nav id="map-destinations" aria-label="Ir a un destino"></nav></div>
+  </aside>
+
+  <footer class="control-bar" aria-label="Controles">
+    <span><span class="key wide">W A S D</span> Mirar</span>
+    <span><span class="key wide" aria-label="Flechas">↑ ↓ ← →</span> Caminar</span>
+    <span><span class="key">E</span> Explorar</span>
+    <span><span class="key wide">ESC</span> Pausa</span>
+  </footer>
+  <div id="touch-controls" hidden aria-label="Controles táctiles"><button data-move="forward" aria-label="Avanzar"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button><button data-move="left" aria-label="Izquierda"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button><button data-move="back" aria-label="Retroceder"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button><button data-move="right" aria-label="Derecha"><svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></div>
+
+  <dialog id="book-dialog" aria-labelledby="book-title">
+    <button id="close-book" class="close-button" aria-label="Cerrar libro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <div class="book-art" id="book-art"><div class="cover-frame"><img src="assets/valientes-espanol-1-cubierta.jpg" alt="Portada original de Valientes Español 1, con un niño, un ave y un papalote."></div></div>
+    <div class="book-info">
+      
+      <h2 id="book-title">Una vida<br>por descubrir.</h2>
+      <p class="book-subtitle">Valientes <span>Español 1</span></p>
+      <p class="book-description">Un niño, un ave y un papalote.<br>Una portada que invita a imaginar.</p>
+      <nav class="book-tabs" aria-label="Vistas del libro"><button data-view="cover" aria-pressed="true">Portada</button><button data-view="full" aria-pressed="false">Cubierta completa</button><button data-view="activity" aria-pressed="false">Actividad</button></nav>
+      <section id="activity" hidden><h3>Inventa una pequeña historia</h3><ol><li>Elige un personaje de la portada.</li><li>Imagina a dónde viaja y qué encuentra.</li><li>Cuenta su aventura en tres frases.</li></ol><p>Actividad de demostración creada para este recorrido. El contenido interior del libro no se ha reproducido.</p></section>
+      <p id="cover-note" class="cover-note">Sigue el hilo del papalote hasta la mano del niño.</p>
+      <label class="choice kite-walk"><input id="lesson-walk" type="checkbox"> Caminar entre las estaciones</label>
+      <button id="lesson-start" class="button lesson-primary">La historia del papalote</button>
+      <section class="aula-materials" id="book-samples" aria-labelledby="samples-title" hidden><h3 id="samples-title">Materiales de muestra</h3><ul></ul></section>
+      <button class="button primary return-button" id="return-class">Volver al salón <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </div>
+  </dialog>
+
+  <dialog id="library-dialog" aria-labelledby="library-title">
+    <button id="close-library" class="close-button" aria-label="Cerrar libro de biblioteca"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <div class="library-art"><img id="library-cover" alt=""></div>
+    <div class="book-info">
+      <h2 id="library-title"></h2>
+      <p id="library-author" class="library-author"></p>
+      <p id="library-age" class="library-age"></p>
+      <a id="library-source" class="text-button" target="_blank" rel="noopener noreferrer">Ver ficha del libro <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"/></svg></a>
+      <button id="back-catalogue" class="text-button" hidden>Volver a los temas</button>
+      <button id="return-library" class="button primary return-button">Volver al salón <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button>
+    </div>
+  </dialog>
+
+  <dialog id="support-dialog" aria-labelledby="support-title">
+    <button id="close-supports" class="close-button" aria-label="Cerrar apoyos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+    <div class="support-heading"><h2 id="support-title">Muchas formas<br>de aprender.</h2><p>Explora los materiales y combina apoyos según la actividad y lo que cada estudiante necesita.</p></div>
+    <div class="scenario-picker"><label for="support-scenario">Elige una situación de aprendizaje</label><select id="support-scenario"><option value="historia">Leer una historia en grupo</option><option value="consigna">Seguir una consigna de varios pasos</option><option value="sumas">Explorar sumas con objetos</option><option value="compartir">Compartir una idea con el grupo</option></select><p id="scenario-context"></p></div>
+    <div class="support-layout">
+      <nav id="support-options" class="support-options" aria-label="Materiales de la banca"></nav>
+      <section id="support-panel" class="support-panel" aria-labelledby="support-detail-title" aria-live="polite">
+        <div id="support-symbol" class="support-symbol" aria-hidden="true"></div>
+        <h3 id="support-detail-title"></h3><p id="support-description"></p>
+        <div class="support-example"><h4>En el aula</h4><p id="support-example"></p></div>
+        <p id="support-prompt" class="support-prompt"></p>
+        <div id="support-application" class="applied-example"></div>
+        <section id="support-demo" aria-label="Probar el apoyo"></section>
+      </section>
+    </div>
+    <section class="aula-materials" id="bench-materials" aria-labelledby="didactics-title" hidden><h3 id="didactics-title">Materiales didácticos</h3><ul></ul></section>
+    <div class="support-footer"><p>Ejemplos generales creados para este recorrido. Referencia: <a href="https://udlguidelines.cast.org/" target="_blank" rel="noopener noreferrer">Pautas DUA de CAST</a>.</p><button id="return-supports" class="button primary">Volver a la banca <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button></div>
+  </dialog>
+
+  <section id="guided-tour" aria-label="Recorrido guiado" hidden>
+    <div class="tour-heading"><p id="tour-progress"></p><button id="tour-exit">Terminar visita</button></div>
+    <h2 id="tour-title"></h2><p id="tour-description"></p>
+    <div class="tour-actions"><button id="tour-open">Explorar parada</button><button id="tour-next">Siguiente parada</button></div>
+  </section>
+  <dialog id="explore-dialog" class="panel-dialog" aria-labelledby="explore-title">
+    <button class="close-button" data-close-panel="explore-dialog" aria-label="Cerrar exploración">×</button>
+    <h2 id="explore-title">Explorar el aula</h2><p>Acércate a un destino o abre sus materiales desde aquí.</p>
+    <div class="lesson-invitation"><div><h3>La historia del papalote</h3><p>Una miniclase de Español 1 que empieza en la portada.</p></div><button id="lesson-from-menu" class="button lesson-primary">Ir a la miniclase</button></div>
+    <div class="tour-invitation"><div><h3>Una visita de tres paradas</h3><p>Descubre el libro, los apoyos y la biblioteca a tu ritmo.</p></div><button id="start-tour" class="button primary" disabled>Iniciar visita</button></div>
+    <nav id="destination-list" aria-label="Materiales y lugares del aula"></nav>
+    <button class="button secondary" data-close-panel="explore-dialog">Volver al aula</button>
+  </dialog>
+  <dialog id="settings-dialog" class="panel-dialog" aria-labelledby="settings-title">
+    <button class="close-button" data-close-panel="settings-dialog" aria-label="Cerrar ajustes">×</button>
+    <h2 id="settings-title">A tu manera</h2>
+    <fieldset><legend>Calidad de imagen</legend><label class="choice"><input type="radio" name="quality" value="high"> Alta <span>Más detalle y sombras suaves.</span></label><label class="choice"><input type="radio" name="quality" value="fluid"> Fluida <span>Prioriza un movimiento ágil.</span></label></fieldset>
+    <label for="look-sensitivity">Sensibilidad al mirar <output id="sensitivity-value" for="look-sensitivity">100 %</output></label><input id="look-sensitivity" type="range" min="50" max="150" step="10" value="100">
+    <label class="choice"><input id="large-text" type="checkbox"> Texto grande</label>
+    <label class="choice"><input id="reduce-motion" type="checkbox"> Reducir movimiento</label>
+    <fieldset><legend>Sonido del patio</legend><label class="choice"><input id="ambient-enabled" type="checkbox"> Escuchar ambiente</label><label for="ambient-volume">Volumen <output id="volume-value" for="ambient-volume">25 %</output></label><input id="ambient-volume" type="range" min="0" max="100" step="5" value="25"><p id="ambient-status" role="status">Sonido opcional de brisa y aves.</p></fieldset>
+    <p class="panel-note">Los ajustes visuales se guardan en este navegador. El sonido se activa cuando lo elijas.</p>
+    <p><a href="/admin/" target="_blank" rel="noopener" class="text-button">Administrar contenidos</a></p>
+    <button class="button primary" data-close-panel="settings-dialog">Listo</button>
+  </dialog>
+  <dialog id="catalogue-dialog" class="panel-dialog" aria-labelledby="catalogue-title">
+    <button class="close-button" data-close-panel="catalogue-dialog" aria-label="Cerrar biblioteca">×</button>
+    <h2 id="catalogue-title">Una historia para cada curiosidad</h2><p>Encuentra una lectura por tema, título o autor.</p>
+    <label for="catalogue-search">Buscar título o autor</label><input id="catalogue-search" type="search" placeholder="Escribe un título o autor" autocomplete="off">
+    <nav id="theme-filters" aria-label="Filtrar por tema o género"></nav><p id="catalogue-count" role="status"></p><div id="catalogue-books"></div>
+    <button class="button secondary" data-close-panel="catalogue-dialog">Volver al aula</button>
+  </dialog>
+  <dialog id="board-dialog" class="panel-dialog" aria-labelledby="board-title">
+    <button class="close-button" data-close-panel="board-dialog" aria-label="Cerrar actividad del pizarrón">×</button>
+    <h2 id="board-title">Inventamos una historia</h2><p>Elige un personaje y un lugar. Después, construyan juntos una historia en tres momentos.</p>
+    <div class="story-choices"><label for="story-character">Personaje<select id="story-character"><option value="ave">El ave</option><option value="papalote">El papalote</option><option value="niña">Una niña</option></select></label><label for="story-place">Lugar<select id="story-place"><option value="patio">El patio de la escuela</option><option value="jardín">Un jardín</option><option value="biblioteca">La biblioteca</option></select></label></div>
+    <button id="create-story" class="button primary">Crear punto de partida</button>
+    <section id="story-result" class="story-result" aria-live="polite" hidden><h3>Así comienza</h3><p id="story-opening"></p><ol><li>Describe lo que encuentra el personaje.</li><li>Cuenta cómo pide o presta ayuda.</li><li>Imagina lo que cambia al final.</li></ol><p>Pueden contarlo, dibujarlo o escribirlo.</p></section>
+    <p class="panel-note">Actividad de demostración creada para este recorrido.</p><button class="button secondary" data-close-panel="board-dialog">Volver al aula</button>
+  </dialog>
+  <dialog id="lesson-dialog" class="panel-dialog" aria-labelledby="lesson-title">
+    <button class="close-button" data-close-panel="lesson-dialog" aria-label="Cerrar miniclase">×</button>
+    <h2 id="lesson-title" tabindex="-1">La historia del papalote</h2>
+    <div id="lesson-content"></div>
+  </dialog>
+  <dialog id="pause-dialog" aria-labelledby="pause-title"><h2 id="pause-title">Controles del aula</h2><p>Mira arriba y abajo con <b>W / S</b>; gira a izquierda y derecha con <b>A / D</b>. Camina con las <b>flechas</b>.</p><p>También puedes mirar con el mouse. Si el cursor queda visible, mantén presionado y arrastra sobre el aula.</p><p>Apunta con la mira a un libro, los apoyos, el pizarrón o el proyector. También puedes abrir los materiales desde «Explorar aula». El contorno azul indica la selección; pulsa <b>E</b> para explorarla. <b>Escape</b> libera el cursor y pausa el recorrido. Con <b>M</b> abres el mapa y eliges un destino.</p><div class="pause-actions"><button id="resume" class="button primary">Continuar <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></button><button id="reset" class="text-button">Volver a la entrada</button></div></dialog>
+  <div id="error" hidden role="alert"><h2>El aula necesita gráficos 3D</h2><p id="error-text">Prueba un navegador con WebGL habilitado y vuelve a cargar el aula.</p><button onclick="location.reload()" class="button primary">Reintentar</button></div>
+  <script>window.addEventListener('error',function(e){if(!window.aulaStarted){document.getElementById('error').hidden=false;document.getElementById('error-text').textContent='No se pudo preparar el aula. Comprueba tu conexión y vuelve a cargar la página.';}});</script>
+</body>
+</html>

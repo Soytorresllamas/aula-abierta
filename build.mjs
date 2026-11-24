@@ -11,7 +11,12 @@ const manifest=JSON.parse(await readFile(path.join(root,'release.json'),'utf8'))
 async function download(file,expected) {
   if (!/^(?:[\w-]+\/)*[\w-]+\.[\w-]+$/.test(file) && !/^vendor\/LICENSE-[\w-]+\.txt$/.test(file))
     throw new Error('Ruta no válida en la versión: '+file);
-  const url=new URL(file==='index.html'?'/':'/'+file,source);
+  if (file==='index.html') {
+    const page=await readFile(path.join(root,'entrada.html'));
+    if(createHash('sha256').update(page).digest('hex')!==expected)throw new Error('La entrada no corresponde a esta versión.');
+    return page;
+  }
+  const url=new URL('/'+file,source);
   url.searchParams.set('release',expected.slice(0,16));
   let last;
   for (let attempt=0;attempt<3;attempt++) {
