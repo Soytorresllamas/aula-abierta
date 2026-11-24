@@ -16,13 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - run: node build.mjs
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: site
   deploy:
     needs: build
     runs-on: ubuntu-latest

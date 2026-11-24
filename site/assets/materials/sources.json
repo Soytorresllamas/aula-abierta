@@ -1,0 +1,101 @@
+[
+  {
+    "source": "oak_veneer_01",
+    "kind": "Diffuse",
+    "resolution": "4k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/oak_veneer_01/oak_veneer_01_diff_4k.jpg",
+    "md5": "d4c13847045d1a10475a23b0787bf384",
+    "path": "assets/materials/wood-albedo.webp",
+    "sha256": "04295885a4acb7a93297a05685236510139b34effbe90be7800b4f4168dd8945",
+    "encoding": "WEBP quality 75, Lanczos resize to 2048x2048",
+    "source_sha256": "7e8c64811e580ef6664c20524606359c739e6fe030eff5c2c06c3482ecc8b1cf"
+  },
+  {
+    "source": "oak_veneer_01",
+    "kind": "nor_gl",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/oak_veneer_01/oak_veneer_01_nor_gl_2k.jpg",
+    "md5": "a6b8dd99a4407aa5dd24d5eee25492d3",
+    "path": "assets/materials/wood-normal.jpg",
+    "sha256": "4bdf7586c92b5a9c2b463e96b42c2c8d0e4653018eee1956e98bc81298b4242b",
+    "encoding": "JPEG quality 78, Lanczos resize to 1024x1024, renormalized RGB normals",
+    "source_sha256": "e74a9d3ddcd86473a21815a28464f4dac4ceb8f86e7f170226dede8ed70d8eb9"
+  },
+  {
+    "source": "oak_veneer_01",
+    "kind": "arm",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/oak_veneer_01/oak_veneer_01_arm_2k.jpg",
+    "md5": "e7f6ef48ffdc1b41aeff9bc6cb170532",
+    "path": "assets/materials/wood-arm.jpg",
+    "sha256": "30e01248d8d9e1c36f891174a2851b8ee4cb077bd93c032c1d602d4ae26f4f58",
+    "encoding": "JPEG quality 83, Lanczos resize to 512x512",
+    "source_sha256": "c1a3453f517fe566ca01f431c72b0ab29120ffce33922f88f3b1100a720b17ce"
+  },
+  {
+    "source": "plastered_wall",
+    "kind": "Diffuse",
+    "resolution": "4k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/plastered_wall/plastered_wall_diff_4k.jpg",
+    "md5": "97a3208fd3897be42071dbb55d7042aa",
+    "path": "assets/materials/plaster-albedo.webp",
+    "sha256": "13f17c908542792e34f5672f728f5780d2d6855177beef4a8e821434b1d60930",
+    "encoding": "WEBP quality 72, Lanczos resize to 512x512",
+    "source_sha256": "e1c04a26f6d0718bdd8471d91ca6722345ed771348ceb48171a51127900b909d"
+  },
+  {
+    "source": "plastered_wall",
+    "kind": "nor_gl",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plastered_wall/plastered_wall_nor_gl_2k.jpg",
+    "md5": "ccfd96ad464ed339f2df9d5d1bca878b",
+    "path": "assets/materials/plaster-normal.jpg",
+    "sha256": "6f49fe717a31bc2c9f94fd187a27cbd1fd6717af34d4d972ed536dc30112d161",
+    "encoding": "JPEG quality 82, Lanczos resize to 512x512, renormalized RGB normals",
+    "source_sha256": "de20f536b1ec428c6de32267b317bbf538ecfa5c42398743f1b702a0f8434071"
+  },
+  {
+    "source": "plastered_wall",
+    "kind": "arm",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/plastered_wall/plastered_wall_arm_2k.jpg",
+    "md5": "9c3bc94f7d0131e8290f5668ebbfbe19",
+    "path": "assets/materials/plaster-arm.jpg",
+    "sha256": "5f28c18cd8d18e92f4678d69cd3f79f2fb6a9a732bcf58d33f407e90ebab04ba",
+    "encoding": "JPEG quality 82, Lanczos resize to 512x512",
+    "source_sha256": "f262032055ac921349344c1f2c922cdad1cede7af3b6a65ebdd77cdcff78b989"
+  },
+  {
+    "source": "terrazzo_tiles",
+    "kind": "Diffuse",
+    "resolution": "4k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/4k/terrazzo_tiles/terrazzo_tiles_diff_4k.jpg",
+    "md5": "b982c11ed500346ef9d3523b78e68b98",
+    "path": "assets/materials/floor-albedo.webp",
+    "sha256": "8ab30a1f7d0fc73965ba17ee8dadd6502258dbec231f9cf8772cee31786366cf",
+    "encoding": "WEBP quality 66, Lanczos resize to 2048x2048",
+    "source_sha256": "e359b1f4e0113eb882561a181558d28d7b631e2991d951fe4e9d5883c5daf12f"
+  },
+  {
+    "source": "terrazzo_tiles",
+    "kind": "nor_gl",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/terrazzo_tiles/terrazzo_tiles_nor_gl_2k.jpg",
+    "md5": "6fdd6cc116b9018108b91f3d5ddf1cff",
+    "path": "assets/materials/floor-normal.jpg",
+    "sha256": "2ec8972459212b162327f361a63ca5469ca6784abee6d86464985e0f616f3732",
+    "encoding": "JPEG quality 83, Lanczos resize to 1024x1024, renormalized RGB normals",
+    "source_sha256": "48f79a943f626c90cfeac4528b765d9f7df862883890a9d05ddf00a2209e0fa4"
+  },
+  {
+    "source": "terrazzo_tiles",
+    "kind": "arm",
+    "resolution": "2k",
+    "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/terrazzo_tiles/terrazzo_tiles_arm_2k.jpg",
+    "md5": "0fb422cdf520645d1f842fb455915130",
+    "path": "assets/materials/floor-arm.jpg",
+    "sha256": "e935fe85246b92457acafaa58fe6a66e300a39bf86b344c45ffe46117e42f128",
+    "encoding": "JPEG quality 84, Lanczos resize to 512x512",
+    "source_sha256": "4480ba6a92d33d475b730126bb9608cfaa93d9b4b668b57181102cf23c380f1e"
+  }
+]

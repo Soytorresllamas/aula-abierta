@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="styles.css?v=20261124-10">
   <link rel="stylesheet" href="experience.css?v=20261124-10">
   <link rel="stylesheet" href="content.css?v=20261124-10">
-  <link id="catalogue-endpoint" rel="preload" as="fetch" href="/api/content" crossorigin="anonymous">
-  <script defer src="content.js?v=pages-1"></script>
+  <link id="catalogue-endpoint" rel="preload" as="fetch" href="./catalog.json" crossorigin="anonymous">
+  <script defer src="content.js?v=github-1"></script>
   <script defer src="vendor/babylon.js?v=20261124-10"></script>
 
   <script defer src="lived-in.js?v=20261124-10"></script>
@@ -163,7 +163,7 @@
     <label class="choice"><input id="reduce-motion" type="checkbox"> Reducir movimiento</label>
     <fieldset><legend>Sonido del patio</legend><label class="choice"><input id="ambient-enabled" type="checkbox"> Escuchar ambiente</label><label for="ambient-volume">Volumen <output id="volume-value" for="ambient-volume">25 %</output></label><input id="ambient-volume" type="range" min="0" max="100" step="5" value="25"><p id="ambient-status" role="status">Sonido opcional de brisa y aves.</p></fieldset>
     <p class="panel-note">Los ajustes visuales se guardan en este navegador. El sonido se activa cuando lo elijas.</p>
-    <p><a href="/admin/" target="_blank" rel="noopener" class="text-button">Administrar contenidos</a></p>
+    <p><a href="./admin/" target="_blank" rel="noopener" class="text-button">Administrar contenidos</a></p>
     <button class="button primary" data-close-panel="settings-dialog">Listo</button>
   </dialog>
   <dialog id="catalogue-dialog" class="panel-dialog" aria-labelledby="catalogue-title">

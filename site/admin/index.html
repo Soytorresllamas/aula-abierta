@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex"><meta name="theme-color" content="#073969"><meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Administrar contenidos · Aula abierta</title>
+  <link rel="stylesheet" href="./editor.css?v=github-1"><script type="module" src="./editor.js?v=github-1"></script>
+</head>
+<body>
+<header class="mast"><div class="brand"><span class="glyph" aria-hidden="true">V</span> Aula abierta</div><nav><a href="../">Volver al salón</a><button id="logout" hidden>Cerrar sesión</button></nav></header>
+<main>
+  <section id="gate" class="gate">
+    <h1>Administrar contenidos</h1>
+    <p>Usa un token de acceso personal de GitHub para editar el aula. La sesión dura hasta que cierres o recargues esta pestaña.</p>
+    <form id="login" autocomplete="off"><label>Token de GitHub<input id="token" type="password" required autocomplete="off" spellcheck="false" autocapitalize="none"></label><button class="primary">Entrar al administrador</button></form>
+    <details><summary>Cómo obtener el token</summary><p>En GitHub, crea un token de acceso detallado con <strong>Soytorresllamas</strong> como propietario. En <strong>Only select repositories</strong> elige <strong>aula-abierta-valientes</strong> y <strong>aula-abierta</strong>. En <strong>Contents</strong> habilita <strong>Read and write</strong>. Elige una fecha de vencimiento y pega el token en el campo de arriba.</p><a href="https://github.com/settings/personal-access-tokens/new?name=Aula%20abierta&amp;target_name=Soytorresllamas&amp;contents=write" target="_blank" rel="noopener noreferrer">Crear token en GitHub</a></details>
+    <p id="gate-message" role="status"></p>
+  </section>
+  <section id="desk" hidden>
+    <div class="page-title"><div><h1>Contenidos del aula</h1><p id="publication"></p><p id="deploy-status" role="status"></p><button id="publish-again" hidden>Reintentar publicación</button></div><button class="primary" id="save" disabled>Guardar y publicar</button></div>
+    <div class="workspace"><nav id="sections" aria-label="Secciones del aula"></nav><section id="editor" aria-labelledby="section-title"><div class="section-header"><div><h2 id="section-title"></h2><p id="where"></p></div><button id="add" type="button" hidden>Agregar</button></div><div id="entries"></div></section></div>
+    <div class="notice" id="notice" role="status"></div><button id="reload" hidden>Cargar última versión de GitHub</button>
+    <p><a href="https://github.com/Soytorresllamas/aula-abierta/actions/workflows/pages.yml" target="_blank" rel="noopener noreferrer">Ver despliegues en GitHub</a></p>
+  </section>
+</main></body></html>

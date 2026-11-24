@@ -1,7 +1,9 @@
 # Aula abierta · Valientes
 
-[Recorrer el salón](https://soytorresllamas.github.io/aula-abierta/)
+[Recorrer el salón](https://soytorresllamas.github.io/aula-abierta/) · [Administrar contenidos](https://soytorresllamas.github.io/aula-abierta/admin/)
 
-Esta es la publicación en GitHub Pages del salón de primaria en primera persona. Los contenidos de la biblioteca, las muestras, la banca y el proyector se consultan en el catálogo público al abrir el aula. La cuenta propietaria puede modificarlos desde el [administrador](https://aula-abierta-valientes.torresllamas.chatgpt.site/admin/).
+El salón de primaria en primera persona, la biblioteca y el administrador se sirven desde GitHub Pages. La carpeta `site/` contiene la experiencia completa y la revisión pública del catálogo. El proyector reproduce el video configurado por el editor.
 
-Para compilar esta versión, ejecuta `node build.mjs` con Node.js 22 o posterior. El script descarga los archivos públicos de la escena, verifica sus huellas SHA-256 con `release.json` y genera `_site/`. GitHub Actions publica ese directorio al actualizar la rama `main`.
+Al guardar desde el administrador, GitHub registra la edición en el repositorio editorial y actualiza aquí el catálogo visible y sus archivos. GitHub Actions publica `site/` con cada actualización de `main`. Puedes ver el estado en [Despliegues de Pages](https://github.com/Soytorresllamas/aula-abierta/actions/workflows/pages.yml).
+
+Para recorrer el salón localmente, ejecuta `python3 -m http.server 8000 --directory site` y abre el puerto 8000 en el navegador.

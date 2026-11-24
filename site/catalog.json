@@ -1,0 +1,183 @@
+{
+  "video": {
+    "title": "Promoción Valientes · SM Chile",
+    "url": "https://vimeo.com/1112098155"
+  },
+  "books": [
+    {
+      "id": "0",
+      "title": "Chiflágoras",
+      "visible": true,
+      "author": "Irma Ibarra",
+      "age": "6+",
+      "grade": "Primaria",
+      "theme": "Crecimiento",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/chiflagoras-1766",
+      "asset": "assets/library/book-0.webp",
+      "width": 1630,
+      "height": 2480
+    },
+    {
+      "id": "1",
+      "title": "Trío Malafama",
+      "visible": true,
+      "author": "Verónica Murguía",
+      "age": "6+",
+      "grade": "Primaria-1",
+      "theme": "Naturaleza",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/trio-malafama-1273",
+      "asset": "assets/library/book-1.webp",
+      "width": 1500,
+      "height": 2304
+    },
+    {
+      "id": "2",
+      "title": "La fabrica de nubes",
+      "visible": true,
+      "author": "Jordi Sierra i Fabra",
+      "age": "7+",
+      "grade": "Primaria-2",
+      "theme": "Naturaleza",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/la-fabrica-de-nubes-1272",
+      "asset": "assets/library/book-2.jpg",
+      "width": 600,
+      "height": 951
+    },
+    {
+      "id": "3",
+      "title": "Para despedir al abuelo",
+      "visible": true,
+      "author": "Alejandro Sandoval Ávila",
+      "age": "7+",
+      "grade": "Primaria-2",
+      "theme": "Familia",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/para-despedir-al-abuelo-1271",
+      "asset": "assets/library/book-3.webp",
+      "width": 1500,
+      "height": 2375
+    },
+    {
+      "id": "4",
+      "title": "Ajolín y el México que no conocía",
+      "visible": true,
+      "author": "Jessica Alvarez",
+      "age": "7+",
+      "grade": "Primaria-3",
+      "theme": "Familia",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/ajolin-y-el-mexico-que-no-conocia-1270",
+      "asset": "assets/library/book-4.jpg",
+      "width": 1500,
+      "height": 1502
+    },
+    {
+      "id": "5",
+      "title": "Xocolátl",
+      "visible": true,
+      "author": "Enrique Escalona",
+      "age": "Para todas las edades",
+      "grade": "Primaria-4",
+      "theme": "Aventuras",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/xocolatl-1763",
+      "asset": "assets/library/book-5.webp",
+      "width": 1417,
+      "height": 2244
+    },
+    {
+      "id": "6",
+      "title": "¡Casi medio año! Edición especial 30 aniversario",
+      "visible": true,
+      "author": "M. B. Brozon",
+      "age": "9+",
+      "grade": "Primaria",
+      "theme": "Aventuras",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/casi-medio-ano-edicion-especial-30-aniversario-1770",
+      "asset": "assets/library/book-6.jpg",
+      "width": 302,
+      "height": 445
+    },
+    {
+      "id": "7",
+      "title": "Fábulas Justas",
+      "visible": true,
+      "author": "Jaime Alfonso Sandoval",
+      "age": "9+",
+      "grade": "Primaria",
+      "theme": "Novela",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/fabulas-justas-1757",
+      "asset": "assets/library/book-7.webp",
+      "width": 540,
+      "height": 866
+    },
+    {
+      "id": "8",
+      "title": "Las sirenas sueñan con trilobites",
+      "visible": true,
+      "author": "Martha Riva Palacio Obón",
+      "age": "9+",
+      "grade": "Primaria-5",
+      "theme": "Familia",
+      "url": "https://literatura-sm-redesign.vercel.app/libro/las-sirenas-suenan-con-trilobites-1274",
+      "asset": "assets/library/book-8.jpg",
+      "width": 1500,
+      "height": 2375
+    }
+  ],
+  "samples": [
+    {
+      "id": "cubierta-espanol-1",
+      "title": "Cubierta de Valientes · Español 1",
+      "visible": true,
+      "description": "Explora los detalles de la portada, el lomo y la contraportada.",
+      "url": "/assets/valientes-espanol-1-cubierta.jpg"
+    }
+  ],
+  "materials": [
+    {
+      "id": "secuencia-oral",
+      "title": "Tres momentos para contar una historia",
+      "visible": true,
+      "description": "Elige tres fichas. Colócalas en fila para representar el inicio, lo que cambia y el desenlace. Cuenta la historia mientras señalas cada momento.",
+      "url": ""
+    }
+  ],
+  "supports": [
+    {
+      "id": "lectura",
+      "color": "#07599e",
+      "object": "Guía de lectura",
+      "title": "Leer con apoyos",
+      "description": "Combina texto, imágenes y lectura compartida según la actividad.",
+      "example": "Recorre una frase con la guía y conversa sobre su significado.",
+      "prompt": "Observa qué apoyo facilita seguir y comprender el texto."
+    },
+    {
+      "id": "pasos",
+      "color": "#007e9e",
+      "object": "Tarjetas de pasos",
+      "title": "Una consigna, paso a paso",
+      "description": "Presenta una secuencia breve con palabras e imágenes.",
+      "example": "Mira el ejemplo, realiza un paso y revisa antes de continuar.",
+      "prompt": "Ajusta la cantidad de pasos y el tiempo junto con el estudiante."
+    },
+    {
+      "id": "manos",
+      "color": "#ad0064",
+      "object": "Fichas para explorar",
+      "title": "Pensar con materiales",
+      "description": "Ofrece objetos para representar ideas y explicar relaciones.",
+      "example": "Agrupa las fichas de dos maneras y explica el criterio elegido.",
+      "prompt": "Relaciona lo construido con palabras, dibujos o símbolos."
+    },
+    {
+      "id": "expresion",
+      "color": "#07599e",
+      "object": "Opciones para responder",
+      "title": "Expresar lo aprendido",
+      "description": "Acuerda distintas maneras de mostrar el mismo aprendizaje.",
+      "example": "Cuenta, dibuja o escribe una respuesta usando un criterio común.",
+      "prompt": "Elige el formato con el estudiante y revisen juntos su explicación."
+    }
+  ],
+  "revision": 0,
+  "updatedAt": null
+}

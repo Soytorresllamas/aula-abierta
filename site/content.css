@@ -1,0 +1,8 @@
+.aula-materials{margin:1rem 0;color:var(--ink);font-size:1rem;line-height:1.45}
+.aula-materials h3{margin:0 0 .4rem;color:var(--deep);font-size:1rem}
+.aula-materials ul{margin:0;padding:0;list-style:none}
+.aula-materials li{padding:.55rem 0;border-top:1px solid var(--line);overflow-wrap:anywhere}
+.aula-materials li p{margin:.3rem 0 0}
+.aula-materials a{color:var(--blue);font-weight:700;text-underline-offset:.2em}
+#bench-materials{padding:0 clamp(18px,4vw,42px)}
+#projection-surface video{display:block;width:100%;height:100%;object-fit:contain;background:#08192a}
