@@ -42,7 +42,7 @@
   const speed = 1.8;
   const radius = .205;
   const sensitivity = .0022;
-  const keyboardLookSpeed = 1.35;
+  const keyboardLookSpeed = 0.675; // Radians per second at 100% sensitivity.
 
   function toast(message) {
     clearTimeout(toastTimer);
