@@ -36,3 +36,16 @@
 #lesson-route{position:fixed;top:100px;left:32px;max-width:calc(100vw - 64px);box-shadow:0 3px 15px #07396626}
 .kite-walk{font-size:14px;min-height:40px}
 @media(max-width:720px){#lesson-route{top:74px;left:16px}}
+
+#kite-print{display:none}
+@media print {
+  @page{size:auto;margin:17mm}
+  html:has(#kite-print),body:has(#kite-print){height:auto!important;min-height:0!important;overflow:visible!important;background:white!important}
+  body:has(#kite-print)>:not(#kite-print),body:has(#kite-print) dialog::backdrop{display:none!important}
+  #kite-print{display:block;color:#12334d;background:white;font:12pt/1.55 Montserrat,Arial,sans-serif}
+  #kite-print h1{font-size:27pt;line-height:1.1;border-bottom:2pt solid #1593bf;padding-bottom:6mm;margin:2mm 0 9mm}
+  #kite-print h2{font-size:16pt;margin:8mm 0 2mm}
+  #kite-print p,#kite-print li{margin:2mm 0}
+  #kite-print canvas{width:100%;height:auto;display:block;break-inside:avoid}
+  #kite-print .illustration-space{height:90mm;border:1pt solid #96abbd;border-radius:3mm}
+}

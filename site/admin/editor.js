@@ -1,6 +1,8 @@
-import {GithubCatalogue} from './github.mjs';
+import {GithubCatalogue} from './github.mjs?v=spread1';
+import {emptySpread} from './catalogue.mjs?v=spread1';
 const $=id=>document.getElementById(id);
 const specs={
+ spread:{label:'Doble página de Español 1',where:'Carga la actividad, elige el apoyo de la banca y marca «Visible en el aula» para publicarla en el pupitre.',fields:[['title','Título de la actividad'],['instruction','Consigna para el grupo (opcional)','area'],['url','Archivo o enlace directo (PDF, JPG, PNG o WebP)','wide'],['supportId','Apoyo de la banca','support']]},
  video:{label:'Video',where:'Se reproduce desde el proyector del salón.',fields:[['title','Título'],['url','Video de Vimeo o archivo MP4','wide']]},
  samples:{label:'Muestras',where:'Se consultan al abrir el libro Valientes en el pupitre.',fields:[['title','Título'],['description','Descripción','area'],['url','Enlace o archivo (opcional)','wide']]},
  materials:{label:'Materiales didácticos',where:'Se consultan en la banca de apoyos.',fields:[['title','Título'],['description','Instrucciones o descripción','area'],['url','Enlace o archivo (opcional)','wide']]},
@@ -8,7 +10,8 @@ const specs={
  supports:{label:'Apoyos',where:'Cada ficha corresponde a un objeto de la banca.',fields:[['object','Nombre del objeto'],['title','Título de la ficha'],['description','Descripción','area'],['example','Ejemplo en el aula','area'],['prompt','Consigna','area'],['color','Color','color']]}
 };
 const movable=['samples','materials','books'];
-const accept={video:'video/mp4',books:'image/jpeg,image/png,image/webp',samples:'application/pdf,image/jpeg,image/png,image/webp,video/mp4',materials:'application/pdf,image/jpeg,image/png,image/webp,video/mp4'};
+const single=key=>key==='video'||key==='spread';
+const accept={spread:'application/pdf,image/jpeg,image/png,image/webp',video:'video/mp4',books:'image/jpeg,image/png,image/webp',samples:'application/pdf,image/jpeg,image/png,image/webp,video/mp4',materials:'application/pdf,image/jpeg,image/png,image/webp,video/mp4'};
 let service,snapshot,watchId=0;
 let doc,group='video',dirty=false,saving=false,uploads=0,conflict=false;
 const el=(tag,txt)=>{const n=document.createElement(tag);if(txt!=null)n.textContent=txt;return n;};
@@ -24,7 +27,7 @@ function status(){
 }
 function changed(){dirty=true;notice('');status();}
 function hydrate(next) {
- snapshot=next;doc=structuredClone(next.doc);dirty=false;conflict=false;
+ snapshot=next;doc=structuredClone(next.doc);doc.spread??=emptySpread();dirty=false;conflict=false;
  $('reload').hidden=true;$('gate').hidden=true;$('desk').hidden=false;$('logout').hidden=false;
  $('publish-again').hidden=true;notice('');render();status();
 }
@@ -74,7 +77,7 @@ function nav(){
  for(const [key,s] of Object.entries(specs)){
   const b=button(s.label,()=>{group=key;render();});
   b.setAttribute('aria-pressed',String(group===key));
-  if(key!=='video'){const n=el('span',doc[key].length);n.className='badge';b.append(n);}
+  if(!single(key)){const n=el('span',doc[key].length);n.className='badge';b.append(n);}
   $('sections').append(b);
  }
 }
@@ -83,7 +86,7 @@ function uploadPicker(grid,item,key,input){
  const label=el('label',group==='books'?'Subir portada':group==='video'?'Subir video MP4':'Subir archivo');
  const control=el('input');control.type='file';control.accept=accept[group];label.append(control);box.append(label,el('p','Hasta 25 MB por archivo. También puedes pegar un enlace.'));
  const result=el('p');result.setAttribute('role','status');box.append(result);grid.append(box);
- const forBook=group==='books';
+ const forBook=group==='books',allowedTypes=accept[group].split(',');
  control.onchange=async()=>{
   const file=control.files[0];if(!file)return;
   if(file.size>25*1024*1024){result.textContent='El archivo supera los 25 MB.';control.value='';return;}
@@ -92,10 +95,10 @@ function uploadPicker(grid,item,key,input){
   try{
    let w,h;
    if(forBook){const bitmap=await createImageBitmap(file);w=bitmap.width;h=bitmap.height;bitmap.close();}
-   const out=await service.upload(file);
+   const out=await service.upload(file,allowedTypes);
    item[key]=out.url;input.value=out.url;
    if(forBook){item.width=w;item.height=h;}
-   dirty=true;notice('Archivo listo. Guarda y publica para mostrarlo en el aula.');
+   dirty=true;notice('Archivo cargado. Guarda los cambios para continuar.');
    result.textContent='Archivo listo: '+file.name;
   }catch(e){result.textContent=e.message||'No se pudo subir el archivo.';notice(result.textContent);}
   finally{uploads--;status();control.disabled=false;input.readOnly=false;control.value='';}
@@ -109,12 +112,22 @@ function record(item,i,expanded){
  const grid=el('div');grid.className='form-grid';detail.append(grid);
  for(const [key,caption,kind] of specs[group].fields){
   const label=el('label',caption);label.className='field'+(kind==='wide'||kind==='area'?' wide':'');
-  const input=el(kind==='area'?'textarea':'input');input.value=item[key]||'';
+  const input=el(kind==='area'?'textarea':kind==='support'?'select':'input');
+  if(kind==='support'){
+   input.add(new Option('Selecciona un apoyo',''));
+   doc.supports.forEach(s=>input.add(new Option(s.object+' · '+s.title,s.id)));
+  }
+  input.value=item[key]||'';
   if(kind==='color')input.type='color';
   if(['asset','url'].includes(key)){input.spellcheck=false;input.autocapitalize='off';input.inputMode='url';}
   input.oninput=()=>{item[key]=input.value;if(key==='title')name.textContent=item.title||'Nuevo elemento';changed();};
   label.append(input);grid.append(label);
   if((group==='books'&&key==='asset')||(group!=='books'&&key==='url'))uploadPicker(grid,item,key,input);
+ }
+ if(group==='spread'){
+  const label=el('label'),visible=el('input');visible.type='checkbox';visible.checked=item.visible;
+  visible.onchange=()=>{item.visible=visible.checked;changed();render();};
+  label.className='actions';label.append(visible,'Visible en el aula');grid.append(label);
  }
  if(movable.includes(group)){
   const actions=el('div');actions.className='actions';
@@ -130,9 +143,9 @@ function record(item,i,expanded){
 function render(openIndex){
  nav();const s=specs[group];$('section-title').textContent=s.label;$('where').textContent=s.where;
  $('add').hidden=!movable.includes(group);$('entries').replaceChildren();
- const items=group==='video'?[doc.video]:doc[group];
+ const items=single(group)?[doc[group]]:doc[group];
  if(!items.length){const empty=el('p','Todavía no hay elementos en esta sección.');empty.className='empty';$('entries').append(empty);}
- items.forEach((x,i)=>$('entries').append(record(x,i,i===openIndex||group==='video')));
+ items.forEach((x,i)=>$('entries').append(record(x,i,i===openIndex||single(group))));
 }
 $('add').onclick=()=>{
  const row={id:crypto.randomUUID(),title:'',visible:true};

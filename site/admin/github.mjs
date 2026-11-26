@@ -1,4 +1,4 @@
-import {validate, publicCatalogue, kindOf} from './catalogue.mjs';
+import {validate, publicCatalogue, kindOf, mediaFiles} from './catalogue.mjs?v=spread1';
 
 const privateRepo='aula-abierta-valientes', publicRepo='aula-abierta';
 const api='https://api.github.com/repos/Soytorresllamas/';
@@ -16,10 +16,6 @@ function base64(bytes) {
 }
 function decode(text) {
   return decoder.decode(Uint8Array.from(atob(text),char=>char.charCodeAt(0)));
-}
-function mediaFiles(doc) {
-  const urls=[doc.video.url,...doc.books.flatMap(b=>[b.asset,b.url]),...doc.samples.map(s=>s.url),...doc.materials.map(s=>s.url)];
-  return new Set(urls.filter(u=>u.startsWith('/media/')).map(u=>u.slice(1)));
 }
 export class GithubCatalogue {
   #token;
@@ -45,10 +41,11 @@ export class GithubCatalogue {
     const file=await this.request(privateRepo,'contents/'+master+'?ref=main');
     return {doc:JSON.parse(decode(file.content)),sha:file.sha};
   }
-  async upload(file) {
+  async upload(file,allowedTypes) {
     if(!file.size||file.size>maxBytes)throw new Error('El peso permitido es de 1 byte a 25 MB.');
     const bytes=new Uint8Array(await file.arrayBuffer());
     const [ext,type]=kindOf(bytes);
+    if(allowedTypes && !allowedTypes.includes(type))throw new Error('Este tipo de archivo no corresponde al material seleccionado.');
     if(file.type && file.type!==type)throw new Error('La extensión y el formato del archivo no coinciden.');
     const name='media/'+crypto.randomUUID()+'.'+ext;
     await this.request(privateRepo,'contents/editorial/'+name,'PUT',{branch:'main',message:'Guardar archivo del aula',content:base64(bytes)});

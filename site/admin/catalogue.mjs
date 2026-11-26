@@ -38,6 +38,24 @@ function dimension(value) {
   if(!Number.isInteger(value)||value<1||value>32768)fail(422,'Revisa las dimensiones de la portada.');
   return value;
 }
+export function emptySpread() {
+  return {title:'Doble página de Español 1',instruction:'',url:'',supportId:'',visible:false};
+}
+function validateSpread(spread) {
+  if(!spread || typeof spread.visible!=='boolean')fail(422,'Revisa la visibilidad de la doble página.');
+  const url=link(spread.url,'Archivo de la doble página',!spread.visible);
+  if(url && !/\.(?:pdf|jpe?g|png|webp)$/i.test(new URL(url,'https://aula.invalid').pathname))
+    fail(422,'La doble página admite archivos PDF, JPG, PNG y WebP.');
+  const supportId=field(spread.supportId,'Apoyo de la banca',80,spread.visible);
+  if(supportId && !supportIds.includes(supportId))fail(422,'Elige uno de los apoyos de la banca.');
+  return {title:field(spread.title,'Título de la doble página',180),
+    instruction:field(spread.instruction,'Consigna',2000,false),url,supportId,visible:spread.visible};
+}
+export function mediaFiles(doc) {
+  const urls=[doc.video.url,doc.spread?.url,...doc.books.flatMap(b=>[b.asset,b.url]),
+    ...doc.samples.map(s=>s.url),...doc.materials.map(s=>s.url)];
+  return new Set(urls.filter(u=>u?.startsWith('/media/')).map(u=>u.slice(1)));
+}
 export function validate(data) {
   if(!data||typeof data!=='object') fail(422,'El catálogo tiene un formato inválido.');
   const doc={video:validateVideo(data.video)};
@@ -61,11 +79,13 @@ export function validate(data) {
       description:field(x.description,'Descripción',2000),example:field(x.example,'Ejemplo',2000),prompt:field(x.prompt,'Consigna',2000)};
   });
   if(seen.size!==4) fail(422,'Los cuatro objetos de la banca requieren su ficha.');
+  if(data.spread!=null)doc.spread=validateSpread(data.spread);
   return doc;
 }
 export function publicCatalogue(doc) {
   const view={...doc};
   for(const key of catalogueGroups) view[key]=doc[key].filter(entry=>entry.visible!==false);
+  if(!doc.spread?.visible)delete view.spread;
   return view;
 }
 export function kindOf(b) {

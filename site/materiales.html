@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#07599e"><title>Materiales · Aula abierta</title>
+  <link rel="stylesheet" href="materiales.css?v=1"><link rel="stylesheet" href="papalote.css?v=20261126"><link rel="stylesheet" href="spread.css?v=1">
+  <link id="catalogue-endpoint" rel="preload" as="fetch" href="./catalog.json" crossorigin="anonymous">
+  <script defer src="content.js?v=github-1"></script><script defer src="papalote.js?v=20261126"></script><script defer src="spread.js?v=1"></script><script defer src="story-board.js?v=1"></script><script defer src="materiales.js?v=1"></script>
+</head>
+<body>
+  <header class="bar"><a class="brand" href="./">Aula abierta</a><nav aria-label="Destinos"><a href="#libro">Español 1</a><a href="#materiales">Materiales</a><a href="./">Ir al salón 3D</a></nav></header>
+  <main><article id="resource" aria-labelledby="resource-title"><h1 id="resource-title" tabindex="-1">Materiales del aula</h1><div id="resource-body"><p role="status">Cargando el catálogo…</p></div></article>
+    <footer id="share" hidden><button id="copy-link" type="button">Copiar enlace</button><output id="copied" aria-live="polite"></output></footer>
+  </main>
+  <dialog id="lesson-dialog" aria-labelledby="lesson-title"><button id="lesson-close" class="dismiss" aria-label="Cerrar miniclase">Cerrar</button><h2 id="lesson-title" tabindex="-1">La historia del papalote</h2><div id="lesson-content"></div></dialog>
+  <template id="board-template">    <div class="story-choices"><label for="story-character">Personaje<select id="story-character"><option value="ave">El ave</option><option value="papalote">El papalote</option><option value="niña">Una niña</option></select></label><label for="story-place">Lugar<select id="story-place"><option value="patio">El patio de la escuela</option><option value="jardín">Un jardín</option><option value="biblioteca">La biblioteca</option></select></label></div>
+    <button id="create-story" class="button primary">Crear punto de partida</button>
+    <section id="story-result" class="story-result" aria-live="polite" hidden><h3>Así comienza</h3><p id="story-opening"></p><ol><li>Describe lo que encuentra el personaje.</li><li>Cuenta cómo pide o presta ayuda.</li><li>Imagina lo que cambia al final.</li></ol><p>Pueden contarlo, dibujarlo o escribirlo.</p></section>
+</template>
+</body></html>

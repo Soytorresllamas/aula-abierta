@@ -6,3 +6,7 @@
 .aula-materials a{color:var(--blue);font-weight:700;text-underline-offset:.2em}
 #bench-materials{padding:0 clamp(18px,4vw,42px)}
 #projection-surface video{display:block;width:100%;height:100%;object-fit:contain;background:#08192a}
+
+.welcome-card a.text-button{color:inherit;text-decoration:none}
+.welcome-card a.text-button:hover{color:var(--yellow)}
+.welcome-links{display:flex;flex-wrap:wrap;align-items:center;gap:0 16px}

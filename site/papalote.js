@@ -30,7 +30,7 @@ window.createKiteLesson = function createKiteLesson(api) {
     else open();
   }
 
-  const walking = () => byId('lesson-walk').checked;
+  const walking = () => byId('lesson-walk')?.checked;
   function nextStation() {
     if (walking()) api.walk();
     else goTo(station());
@@ -38,6 +38,7 @@ window.createKiteLesson = function createKiteLesson(api) {
 
   function refreshRoute(isActive) {
     const route = byId('lesson-route');
+    if (!route) return;
     route.hidden = !(isActive && walking() && ['place','bench','closing'].includes(draft.step));
     if (!route.hidden) {
       const name = station() === 'apoyos' ? 'la banca de apoyos' : 'el pizarrón';
@@ -48,8 +49,8 @@ window.createKiteLesson = function createKiteLesson(api) {
 
   function showDestination() {
     const starting = draft.step === 'idle' || draft.step === 'finished';
-    byId('lesson-start').textContent = starting ? 'La historia del papalote' : 'Continuar la historia del papalote';
-    byId('lesson-from-menu').textContent = starting ? 'Ir a la miniclase' : 'Continuar la miniclase';
+    if (byId('lesson-start')) byId('lesson-start').textContent = starting ? 'La historia del papalote' : 'Continuar la historia del papalote';
+    if (byId('lesson-from-menu')) byId('lesson-from-menu').textContent = starting ? 'Ir a la miniclase' : 'Continuar la miniclase';
   }
 
   function opening() {
@@ -277,6 +278,36 @@ window.createKiteLesson = function createKiteLesson(api) {
     choose(draft.mode);
   }
 
+  function printStory() {
+    byId('kite-print')?.remove();
+    const sheet = document.createElement('article');
+    sheet.id = 'kite-print';
+    putText('p','Valientes · Español 1',sheet);
+    putText('h1','La historia del papalote',sheet);
+    putText('h2','Así comenzó',sheet);
+    putText('p',opening()+' '+places[draft.place][1],sheet);
+    if (draft.mode === 'cards') {
+      putText('h2','Nuestro desenlace',sheet);
+      const list = document.createElement('ol');
+      sheet.append(list);
+      draft.order.forEach(id => putText('li',cards[id],list));
+    } else if (draft.mode === 'drawing') {
+      putText('h2','Nuestro dibujo',sheet);
+      const art = paper('Dibujo del grupo');
+      paint(art);
+      sheet.append(art);
+    } else {
+      putText('h2','El final que contamos',sheet);
+      putText('p','Ilustra aquí el desenlace que compartiste en voz alta.',sheet);
+      const space = document.createElement('div');
+      space.className = 'illustration-space';
+      sheet.append(space);
+    }
+    document.body.append(sheet);
+    window.addEventListener('afterprint',() => sheet.remove(),{once:true});
+    window.print();
+  }
+
   function renderClosing() {
     stationHeading('Pizarrón · Comparte tu historia',opening());
     if (draft.mode === 'cards') {
@@ -290,6 +321,7 @@ window.createKiteLesson = function createKiteLesson(api) {
       paint(drawing);
     } else putText('p','Vuelve a contar tu final al grupo. Invita a alguien a elegir el momento que más le gustó.');
     putText('p','Para cerrar, comparte qué hizo posible que el papalote volviera a volar y quién ayudó.').className='kite-opening';
+    content.append(action('Imprimir mi historia',printStory));
     content.append(action('Terminar la miniclase',() => {
       draft.step = 'finished';
       showDestination();
@@ -308,14 +340,14 @@ window.createKiteLesson = function createKiteLesson(api) {
     byId('lesson-title').focus({preventScroll:true});
   }
 
-  byId('lesson-route').addEventListener('click',() => goTo(station()));
-  byId('lesson-start').addEventListener('click',start);
-  byId('lesson-from-menu').addEventListener('click',() => {
+  byId('lesson-route')?.addEventListener('click',() => goTo(station()));
+  byId('lesson-start')?.addEventListener('click',start);
+  byId('lesson-from-menu')?.addEventListener('click',() => {
     api.stopTour();
     goTo(station());
   });
   return {
-    open, refreshRoute,
+    start, open, refreshRoute,
     at: id => !['idle','finished'].includes(draft.step) && station() === id,
     reset() {
       if (draft.step !== 'idle') api.writeBoard(null);

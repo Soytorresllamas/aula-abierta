@@ -97,7 +97,7 @@
     $('catalogue-search').addEventListener('input',renderCatalogue);
     renderCatalogue();
     $('back-catalogue').addEventListener('click',api.backToCatalogue);
-    $('create-story').addEventListener('click',()=>{const characters={ave:'El ave encontró',papalote:'El papalote descubrió','niña':'Una niña encontró'},places={patio:'en el patio de la escuela',jardín:'en un jardín',biblioteca:'en la biblioteca'};$('story-opening').textContent=`${characters[$('story-character').value]} una pequeña caja azul ${places[$('story-place').value]}. Dentro había algo que necesitaba la ayuda de todo el grupo…`;$('story-result').hidden=false;});
+    window.setupStoryBoard(document);
 
     const scenarios={
       historia:{context:'Leer una historia breve y explicar lo que sucede.',lines:['Un ave encontró una semilla.','La llevó al jardín de la escuela.','El grupo la sembró y esperó.'],steps:['Observar la ilustración.','Leer una parte de la historia.','Compartir lo que sucedió.'],question:'¿Qué pasó con la semilla?',applications:['Lee una línea por vez y deja que cada persona marque su ritmo.','Haz visible el recorrido: observar, leer y compartir.','Usa tres fichas para representar inicio, desarrollo y final.','Ofrece varias maneras de contar lo que ocurrió.']},

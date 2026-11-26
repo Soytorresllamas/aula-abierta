@@ -31,8 +31,6 @@
   coverReady.catch(() => {
     ready = false;
     $('enter').disabled = true;
-    $('go-book').disabled = true;
-    $('go-supports').disabled = true;
     $('go-video').disabled = true;
     document.body.dataset.ready = 'false';
     $('error').querySelector('h2').textContent = 'Falta la cubierta original';
@@ -125,6 +123,19 @@
     document.querySelectorAll('[data-view]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.view === view)));
     $('book-art').querySelector('img').alt = view === 'full' ? 'Cubierta original completa: contraportada, lomo y portada de Valientes Español 1.' : 'Portada original de Valientes Español 1, con un niño, un ave y un papalote.';
   }
+  let spread,supportForSpread,closeViewer;
+  const spreadDialog=$('spread-dialog');
+  function openSpread(){
+    if(!spread||spreadDialog.open)return;
+    spreadDialog.showModal();
+    closeViewer=window.openSpanishSpread($('desk-spread'),spread,supportForSpread,()=>{
+      spreadDialog.close();
+      bookDialog.close();
+      openSupports(supportForSpread.id,true,true);
+    });
+  }
+  $('open-spread').addEventListener('click',openSpread);
+  spreadDialog.addEventListener('close',()=>{closeViewer?.();closeViewer=null;});
   function openBook(direct = false) {
     if (!room || !ready || contentOpen() || (!direct && !state.nearBook)) return;
     if (pauseDialog.open) pauseDialog.close();
@@ -140,6 +151,7 @@
     setBookView('cover');
     bookDialog.showModal();
     refreshUI();
+    if(spread)openSpread();
   }
   function closeBook() {
     if (bookDialog.open) bookDialog.close();
@@ -234,11 +246,15 @@
     $('support-symbol').innerHTML=supportIcon(item.id);
     $('support-options').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.support===item.id)));
   }
-  function openSupports(id='overview',direct=false) {
-    if (lesson?.at('apoyos') && (direct || state.nearSupport)) { lesson.open(); return; }
+  function openSupports(id='overview',direct=false,fromSpread=false) {
+    if (!fromSpread && lesson?.at('apoyos') && (direct || state.nearSupport)) { lesson.open(); return; }
     if(!ready||!room||contentOpen()||(!direct&&!state.nearSupport))return;
     if(pauseDialog.open)pauseDialog.close();
-    if(direct){camera.position.copyFrom(room.diversity.approach);camera.setTarget(room.diversity.position);}
+    if(direct){
+      camera.position.copyFrom(room.diversity.approach);
+      const object=fromSpread && room.diversity.groups[id]?.at(-1);
+      camera.setTarget(object?object.getAbsolutePosition():room.diversity.position);
+    }
     state.started=true;state.active=false;clearInput();releaseMouse();
     showSupport(id);supportDialog.showModal();supportDialog.scrollTop=0;refreshUI();
   }
@@ -419,13 +435,13 @@
       try { await coverReady; } catch (_) { return; }
       ready = true;
       $('enter').disabled=false;$('enter').innerHTML='Entrar al salón <svg class="arrow-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg>';
-      $('go-book').disabled=false;
-      $('go-supports').disabled=false;
       $('go-video').disabled=!window.AULA_VIDEO.url;
       $('go-video').hidden=!window.AULA_VIDEO.url;
       document.body.dataset.ready='true';
       window.aulaStarted=true;
       experience.ready();
+      const supportId=new URLSearchParams(location.search).get('apoyo');
+      if(supportId && window.AULA_SUPPORTS.some(item=>item.id===supportId))openSupports(supportId,true,true);
       drawMap();
     });
     window.addEventListener('resize',resizeQuality);
@@ -433,8 +449,14 @@
 
   $('enter').addEventListener('click',enter);
   $('go-video').addEventListener('click',openProjection);
-  $('go-book').addEventListener('click',()=>openBook(true));
-  $('go-supports').addEventListener('click',()=>openSupports('overview',true));
+  function openWhenReady(link,open){
+    link.addEventListener('click',event=>{
+      if(!ready||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();open();
+    });
+  }
+  openWhenReady($('go-book'),()=>openBook(true));
+  openWhenReady($('go-supports'),()=>openSupports('overview',true));
   $('close-supports').addEventListener('click',closeSupports);
   $('return-supports').addEventListener('click',closeSupports);
   supportDialog.addEventListener('cancel',e=>{e.preventDefault();closeSupports();});
@@ -506,6 +528,9 @@
   function applyContent(data) {
     window.AULA_LIBRARY=data.books;
     window.AULA_SUPPORTS=data.supports;
+    spread=data.spread?.visible?data.spread:null;
+    supportForSpread=data.supports.find(item=>item.id===spread?.supportId);
+    $('open-spread').hidden=!spread;
     window.AULA_VIDEO=data.video || {title:'Video del aula',url:''};
     window.aulaCatalogue.renderMaterials('book-samples', data.samples);
     window.aulaCatalogue.renderMaterials('bench-materials', data.materials);
