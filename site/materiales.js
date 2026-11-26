@@ -46,7 +46,7 @@
     title('Recurso no disponible');para('Puedes consultar los materiales que están publicados en el aula.');
     body.append(link('Ver materiales','#materiales'));
   }
-  function render(){
+  function render(moveFocus=true){
     if(!data)return;
     dispose?.();dispose=null;
     if(dialog.open)dialog.close();
@@ -92,7 +92,9 @@
         }else{para(item.description);openFile('Abrir archivo o enlace',item.url);}
       }
     }
-    $('share').hidden=false;heading.focus({preventScroll:true});window.scrollTo(0,0);
+    $('share').hidden=false;
+    if(moveFocus)heading.focus({preventScroll:true});
+    window.scrollTo(0,0);
   }
   $('copy-link').onclick=async()=>{
     try{await navigator.clipboard.writeText(location.href);$('copied').textContent='Enlace copiado.';}
@@ -101,8 +103,8 @@
   $('lesson-close').onclick=()=>dialog.close();
   lesson=window.createKiteLesson({navigate(){},stopTour(){},writeBoard(){},openOverlay(){if(!dialog.open)dialog.showModal();},
     closeOverlay(){dialog.close();},openMaterial(){location.hash='libro';}});
-  window.addEventListener('hashchange',render);
-  window.aulaCatalogue.pending.then(catalog=>{data=catalog;render();}).catch(()=>{
+  window.addEventListener('hashchange',()=>render());
+  window.aulaCatalogue.pending.then(catalog=>{data=catalog;render(false);}).catch(()=>{
     title('No se pudo cargar el catálogo');body.replaceChildren(link('Volver a intentar',location.href));
   });
 })();
